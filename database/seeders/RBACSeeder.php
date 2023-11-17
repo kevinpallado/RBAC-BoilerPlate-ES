@@ -22,6 +22,31 @@ class RBACSeeder extends Seeder
         $actions = ['read','store','update','delete','print'];
         $pages = [
             [
+                'module' => 'Students',
+                'page' => 'Enrollment',
+                'student' => true
+            ],
+            [
+                'module' => 'Students',
+                'page' => 'Assessment and Billing',
+                'student' => true
+            ],
+            [
+                'module' => 'Students',
+                'page' => 'Evaluation',
+                'student' => true
+            ],
+            [
+                'module' => 'Students',
+                'page' => 'Grades',
+                'student' => true
+            ],
+            [
+                'module' => 'Students',
+                'page' => 'Subjects Enrolled',
+                'student' => true
+            ],
+            [
                 'module' => 'Settings',
                 'page' => 'User Group',
             ],
@@ -31,13 +56,26 @@ class RBACSeeder extends Seeder
             ]
         ];
         $groups = ['Administrator','Students','Faculty','Developer','Customer'];
-        $users = [[
-            'name' => 'Test Developer',
-            'email' => 'testdeveloper@mailtrap.io',
-            'password' => Hash::make('123456'),
-            'administrator' => true
-            // insert group id base on search of admin group
-        ]];
+        $users = [
+            [
+                'name' => 'Test Developer',
+                'email' => 'testdeveloper@mailtrap.io',
+                'password' => Hash::make('123456'),
+                'administrator' => true,
+                'beneficiary' => false,
+                'benefactor' => true,
+                'university_id' => 00000,
+            ],
+            [
+                'name' => 'Nadzmar Hajal',
+                'email' => 'hajal@gmail.com',
+                'password' => Hash::make('123456'),
+                'administrator' => false,
+                'beneficiary' => true,
+                'benefactor' => false,
+                'university_id' => 20200010859,
+            ]
+        ];
 
         foreach($actions as $action) {
             SystemActions::updateOrCreate(
@@ -70,11 +108,20 @@ class RBACSeeder extends Seeder
                 ]
             );
 
-            foreach($actions as $action) {
-                SystemUserAccess::updateOrCreate(
-                    ['access_type' => 'group', 'access_id' => SystemUserGroups::where("name", 'Administrator')->value('id'), 'page_id' => $pageInfo->id, 'action' => $action],
-                    ['access_type' => 'group', 'access_id' => SystemUserGroups::where("name", 'Administrator')->value('id'), 'page_id' => $pageInfo->id, 'action' => $action]
-                );
+            if(array_key_exists('student', $page)) {
+                foreach($actions as $action) {
+                    SystemUserAccess::updateOrCreate(
+                        ['access_type' => 'group', 'access_id' => SystemUserGroups::where("name", 'Students')->value('id'), 'page_id' => $pageInfo->id, 'action' => $action],
+                        ['access_type' => 'group', 'access_id' => SystemUserGroups::where("name", 'Students')->value('id'), 'page_id' => $pageInfo->id, 'action' => $action]
+                    );
+                }
+            } else {
+                foreach($actions as $action) {
+                    SystemUserAccess::updateOrCreate(
+                        ['access_type' => 'group', 'access_id' => SystemUserGroups::where("name", 'Administrator')->value('id'), 'page_id' => $pageInfo->id, 'action' => $action],
+                        ['access_type' => 'group', 'access_id' => SystemUserGroups::where("name", 'Administrator')->value('id'), 'page_id' => $pageInfo->id, 'action' => $action]
+                    );
+                }
             }
         }
 
@@ -86,9 +133,20 @@ class RBACSeeder extends Seeder
                     'email' => $user['email'],
                     'password' => $user['password'],
                     'administrator' => $user['administrator'],
-                    'group_id' => SystemUserGroups::where("name", 'Administrator')->value('id')
+                    'university_id' => $user['university_id'],
+                    'group_id' => $this->userIdentification($user['administrator'], $user['benefactor'],$user['beneficiary'])
                 ]
             );
+        }
+    }
+
+    public function userIdentification($admin, $benefactor, $beneficiary) {
+        if($admin) {
+            return SystemUserGroups::where("name", 'Administrator')->value('id');
+        } else if(!$admin && $benefactor) {
+            return SystemUserGroups::where("name", 'Faculty')->value('id');
+        } else if(!$admin && !$benefactor && $beneficiary) {
+            return SystemUserGroups::where("name", 'Students')->value('id');
         }
     }
 }

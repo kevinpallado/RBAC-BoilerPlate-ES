@@ -31,7 +31,16 @@ class SystemUser extends Authenticatable
         'benefactor',
         'beneficiary',
         'last_logged_in',
-        'active'
+        'active',
+        'university_id',
+        'block',
+        'is_confirmed',
+        'is_logged_in',
+        'is_parents',
+        'is_email_activated',
+        'password_last_changed',
+        'password_expire_date',
+        'block_reason'
     ];
 
     /**

@@ -4,7 +4,8 @@ namespace Modules\Cashier\Cashiering\Models;
 
 use Illuminate\Database\Eloquent\Model;
 // models
-use App\Models\Registrar\Students;
+use Modules\Setup\Academic\Models\AcademicYearTerm;
+use Modules\Students\Models\Students;
 
 class Journals extends Model
 {
@@ -72,8 +73,14 @@ class Journals extends Model
         return $this->belongsTo(Students::class, 'IDNo', 'StudentNo');
     }
 
+    public function ayterm() {
+        return $this->belongsTo(AcademicYearTerm::class, 'TermID', 'TermID');
+    }
+
     static function studentAssessmentBilling($request) {
-        $billingData = self::when($request->student, fn($query, $student) => $query->where('IDNo', $student), fn($query) => $query->where('IDNo', auth()->user()->UserID))
+        $academicYearSelected = null;
+        $billingData = self::with(['ayterm:TermID,AcademicYear,SchoolTerm'])
+            ->when($request->student, fn($query, $student) => $query->where('IDNo', $student), fn($query) => $query->where('IDNo', auth()->user()->university_id))
             ->when($request->ayterm, fn($query, $ayterm) => $query->where('TermID', $ayterm), fn($query) => $query->where('TermID', getActiveAYTermID()))
             ->get();
         $totalAssessment = [
@@ -99,6 +106,7 @@ class Journals extends Model
             $totalAssessment['ActualPayment'] += $journals->ActualPayment;
             $totalAssessment['Refund'] += $journals->Refund;
             $totalAssessment['CreditMemo'] += $journals->CreditMemo;
+            $academicYearSelected = $journals->ayterm->AcademicYear.' '.$journals->ayterm->SchoolTerm;
         }
         $totalAssessment['Assessment'] = number_format($totalAssessment['Assessment'], 2);
         $totalAssessment['Discount'] = number_format($totalAssessment['Discount'], 2);
@@ -109,6 +117,7 @@ class Journals extends Model
         $totalAssessment['ActualPayment'] = number_format($totalAssessment['ActualPayment'], 2);
         $totalAssessment['Refund'] = number_format($totalAssessment['Refund'], 2);
         $totalAssessment['CreditMemo'] = number_format($totalAssessment['CreditMemo'], 2);
+        $totalAssessment['AYTerm'] = $academicYearSelected;
         return $totalAssessment;
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 // models
 use Modules\Setup\Academic\Models\YearLevel;
+use Modules\Setup\Academic\Models\Programs;
 
 class Students extends Model
 {
@@ -255,5 +256,9 @@ class Students extends Model
 
     public function curriculum() {
         return $this->belongsTo(Curriculum::class, 'CurriculumID', 'IndexID');
+    }
+
+    public function program() {
+        return $this->belongsTo(Programs::class, 'ProgID', 'ProgID');
     }
 }

@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 // controllers
 use App\Http\Controllers\DashboardController;
+// students
+use App\Http\Controllers\Students\AssessmentBillingController;
 use App\Http\Controllers\UsersGroupController;
 use App\Http\Controllers\UsersController;
 
@@ -24,6 +26,14 @@ Route::middleware('auth')->group(function () {
     Route::prefix('system-settings')->name('system-settings.')->group(function () {
         Route::resource('user-group', UsersGroupController::class);
         Route::resource('users', UsersController::class);
+    });
+
+    Route::prefix('students')->name('students.')->group(function () {
+        Route::resource('enrollment', DashboardController::class)->only('index');
+        Route::resource('assessment-billing', AssessmentBillingController::class)->only('index');
+        Route::resource('subjects-enrolled', DashboardController::class)->only('index');
+        Route::resource('grades', DashboardController::class)->only('index');
+        Route::resource('evaluation', DashboardController::class)->only('index');
     });
 });
 

@@ -4,10 +4,11 @@ namespace Modules\Registrar\Registrations\Models;
 
 use Illuminate\Database\Eloquent\Model;
 // models
+use Modules\Accounting\FeesSetup\Models\TableOfFees;
+use Modules\Accounting\FeesSetup\Models\TableOfFeesDates;
+use Modules\Registrar\Students\Models\Students;
 use Modules\Setup\Academic\Models\AcademicYearTerm;
 use Modules\Setup\Academic\Models\YearLevel;
-use Modules\Accounting\FeesSetup\TableOfFees;
-use Modules\Accounting\FeesSetup\TableOfFeesDates;
 
 class Registrations extends Model
 {

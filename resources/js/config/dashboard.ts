@@ -21,6 +21,41 @@ export const dashboardConfig: DashboardConfig = {
       pathKey: "dashboard"
     },
     {
+      title: "Assessment & Billing",
+      href: route('students.assessment-billing.index'),
+      icon: "receipt",
+      slug: "assessment_and_billing",
+      pathKey: "students.assessment-billing.*"
+    },
+    {
+      title: "Enrollment",
+      href: route('students.enrollment.index'),
+      icon: "bookMarked",
+      slug: "enrollment",
+      pathKey: "students.enrollment.*"
+    },
+    {
+      title: "Evaluation",
+      href: route('students.evaluation.index'),
+      icon: "pencilRuler",
+      slug: "evaluation",
+      pathKey: "students.evaluation.*"
+    },
+    {
+      title: "Grades",
+      href: route('students.grades.index'),
+      icon: "star",
+      slug: "grades",
+      pathKey: "students.grades.*"
+    },
+    {
+      title: "Subjects Enrolled",
+      href: route('students.subjects-enrolled.index'),
+      icon: "laptop",
+      slug: "subjects_enrolled",
+      pathKey: "students.subjects-enrolled.*"
+    },
+    {
       title: "User Group",
       href: route('system-settings.user-group.index'),
       icon: "userSquare",

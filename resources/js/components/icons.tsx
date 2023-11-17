@@ -1,6 +1,7 @@
 import {
     AlertTriangle,
     ArrowRight,
+    BookMarked,
     Check,
     ChevronLeft,
     ChevronRight,
@@ -24,6 +25,9 @@ import {
     User,
     UserSquare,
     X,
+    PencilRuler,
+    Receipt,
+    Star,
     type IconNode as LucideIcon,
 } from "lucide-react";
 
@@ -52,6 +56,10 @@ export const Icons = {
     moon: Moon,
     laptop: Laptop,
     userSquare: UserSquare,
+    bookMarked: BookMarked,
+    pencilRuler: PencilRuler,
+    receipt: Receipt,
+    star: Star,
     gitHub: ({ ...props }: LucideProps) => (
         <svg
             aria-hidden="true"
