@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 // students
 use App\Http\Controllers\Students\AssessmentBillingController;
+use App\Http\Controllers\Students\EvaluationController;
+use App\Http\Controllers\Students\GradesController;
+use App\Http\Controllers\Students\ProfileController;
+use App\Http\Controllers\Students\SubjectsEnrolledController;
+// system settings
 use App\Http\Controllers\UsersGroupController;
 use App\Http\Controllers\UsersController;
 
@@ -31,9 +36,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix('students')->name('students.')->group(function () {
         Route::resource('enrollment', DashboardController::class)->only('index');
         Route::resource('assessment-billing', AssessmentBillingController::class)->only('index');
-        Route::resource('subjects-enrolled', DashboardController::class)->only('index');
-        Route::resource('grades', DashboardController::class)->only('index');
-        Route::resource('evaluation', DashboardController::class)->only('index');
+        Route::resource('subjects-enrolled', SubjectsEnrolledController::class)->only('index');
+        Route::resource('grades', GradesController::class)->only('index');
+        Route::resource('evaluation', EvaluationController::class)->only('index');
+        // student data
+        Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
     });
 });
 

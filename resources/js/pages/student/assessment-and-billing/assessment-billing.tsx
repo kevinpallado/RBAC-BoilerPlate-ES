@@ -1,4 +1,5 @@
 import { Head, router, usePage } from "@inertiajs/react";
+import { useState } from "react";
 // layouts
 import DashboardLayout from "@/layouts/main";
 // global components
@@ -13,7 +14,6 @@ import {
 import BillingInfo from "./components/billing-info";
 import StudentInfo from "./components/student-info";
 import PaymentScheduleInfo from "./components/payment-schedule";
-import { useState } from "react";
 
 export default function AssessmentBilling() {
 

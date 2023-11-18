@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Employee\Models\Employees;
+namespace Modules\Management\Employee\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -88,4 +88,5 @@ class Employees extends Model
         'Father_Occupation',
         'Mother_Occupation'
     );
+    public $incrementing = false;
 }

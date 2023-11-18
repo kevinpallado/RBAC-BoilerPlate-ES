@@ -4,6 +4,8 @@ namespace Modules\Registrar\Curriculums\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Registrar\Subjects\Models\Subjects;
+
 class PreRequisite extends Model
 {
     protected $table = 'prerequisites';

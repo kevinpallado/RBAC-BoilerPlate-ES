@@ -5,6 +5,7 @@ namespace Modules\Registrar\Curriculums\Models;
 use Illuminate\Database\Eloquent\Model;
 // models
 use Modules\Setup\Academic\Models\YearTerm;
+use Modules\Registrar\Subjects\Models\Subjects;
 
 class CurriculumDetails extends Model
 {

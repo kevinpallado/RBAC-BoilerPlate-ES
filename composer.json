@@ -28,7 +28,16 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\": "src/Modules/"
+            "Modules\\": "src/Modules/",
+            "Accounting\\": "src/Modules/Accounting",
+            "Admission\\": "src/Modules/Admission",
+            "Cashier\\": "src/Modules/Cashier",
+            "ClassRecords\\": "src/Modules/ClassRecords",
+            "Management\\": "src/Modules/Management",
+            "Registrar\\": "src/Modules/Registrar",
+            "Scheduling\\": "src/Modules/Scheduling",
+            "Setup\\": "src/Modules/Setup",
+            "SystemSettings\\": "src/Modules/SystemSettings"
         },
         "files": [
             "app/Helpers/Academic.php"
