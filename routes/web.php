@@ -11,6 +11,7 @@ use App\Http\Controllers\Students\GradesController;
 use App\Http\Controllers\Students\ProfileController;
 use App\Http\Controllers\Students\SubjectsEnrolledController;
 // system settings
+use App\Http\Controllers\SelectDataController;
 use App\Http\Controllers\UsersGroupController;
 use App\Http\Controllers\UsersController;
 
@@ -41,6 +42,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('evaluation', EvaluationController::class)->only('index');
         // student data
         Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
+        Route::post('profile/{student}', [ProfileController::class, 'updateProfile'])->name('submit.profile');
+        Route::get('family', [ProfileController::class, 'family'])->name('profile.family');
+    });
+
+    Route::prefix('select')->name('select.')->group(function () {
+        Route::get('address', [SelectDataController::class, 'data'])->name('address');
     });
 });
 

@@ -243,6 +243,7 @@ class Students extends Model
         'DateEntered',
         'IsProfileUpdated'
     );
+    public $timestamps = false;
 
     protected function DateOfBirth(): Attribute
     {

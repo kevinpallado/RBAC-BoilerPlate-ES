@@ -42,12 +42,15 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
+                    <Link href={route('dashboard')}>Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                     <Link href={route('students.profile')}>Profile</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     className="cursor-pointer"
-                    onSelect={(event) => {
+                    onSelect={(event:any) => {
                         event.preventDefault();
                         router.post(route('auth.logout'));
                     }}

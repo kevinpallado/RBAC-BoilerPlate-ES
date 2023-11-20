@@ -41,6 +41,13 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'form' => fn () => [
+                'message' => fn () => $request->session()->get('message'),
+                'success' => fn () => $request->session()->get('success'),
+            ],
+            'select' => fn () => [
+                'options' => fn () => $request->session()->get('options')
+            ],
             'errorBags' => function () {
                 return collect(optional(Session::get('errors'))->getBags() ?: [])->mapWithKeys(function ($bag, $key) {
                     return [$key => $bag->messages()];

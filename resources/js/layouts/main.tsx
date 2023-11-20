@@ -2,6 +2,7 @@ import { dashboardConfig } from "@/config/dashboard";
 import { MainNav } from "@/components/main-nav";
 import { DashboardNav } from "@/components/nav";
 import { UserAccountNav } from "@/components/user-account-nav";
+import { Toaster } from "@/components/ui/toaster"
 import { usePage } from "@inertiajs/react";
 
 interface DashboardLayoutProps {
@@ -32,6 +33,7 @@ export default function DashboardLayout({ pageTitle, pageDescription, children }
                     <DashboardNav items={dashboardConfig.sidebarNav} />
                 </aside>
                 <main className="flex w-full flex-1 flex-col overflow-hidden">
+                    <Toaster />
                     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
                         <div className="flex items-center justify-between space-y-2">
                             <div>

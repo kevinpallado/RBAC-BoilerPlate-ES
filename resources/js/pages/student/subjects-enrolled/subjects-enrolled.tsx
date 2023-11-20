@@ -24,7 +24,7 @@ export default function SubjectsEnrolled() {
 
     const { subjectsEnrolled, registeredAYTerm, activeAyTerm } = usePage<any>().props;
 
-    const [selectedTerm, setSelectedTerm] = useState<any>(activeAyTerm);
+    const [selectedTerm, setSelectedTerm] = useState<any>(null);
 
     function labelTags(tagCode: string) {
         switch (tagCode) {
@@ -56,8 +56,8 @@ export default function SubjectsEnrolled() {
                             <SelectValue placeholder="Select Academic Year Term" />
                         </SelectTrigger>
                         {registeredAYTerm.length > 0 && <SelectContent>
-                            {registeredAYTerm.map((ayterm: any) =>
-                                <SelectItem key={ayterm.TermID} value={ayterm.TermID}>{ayterm.ayterm.AcademicYear} - {ayterm.ayterm.SchoolTerm}</SelectItem>)}
+                            {registeredAYTerm.map((ayterm: any, index: number) =>
+                                <SelectItem key={index} value={ayterm.TermID}>{ayterm.ayterm.AcademicYear} - {ayterm.ayterm.SchoolTerm}</SelectItem>)}
                         </SelectContent>}
                     </Select>
                 </div>

@@ -43,7 +43,7 @@ export default function Evaluation() {
                                 <TableCell>{row.subject.SubjectTitle}</TableCell>
                                 <TableCell className="font-medium text-right">{row.subject.CreditUnits}</TableCell>
                                 <TableCell className="font-medium text-right">{isGradeExists(row.SubjectID)}</TableCell>
-                                <TableCell className="text-right">{row.pre_requisite.length > 0 ? (row.pre_requisite.map((subjects: any) => <Badge className="mt-1">
+                                <TableCell className="text-right">{row.pre_requisite.length > 0 ? (row.pre_requisite.map((subjects: any, index: number) => <Badge key={index} className="mt-1">
                                     {subjects.subject.SubjectCode}
                                 </Badge>)) : ''}</TableCell>
                             </TableRow>

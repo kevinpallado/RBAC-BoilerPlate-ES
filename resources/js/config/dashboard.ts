@@ -12,6 +12,29 @@ export const dashboardConfig: DashboardConfig = {
   //     disabled: true,
   //   },
   // ],
+  profileNav: [
+    {
+      title: "Personal Background",
+      href: route('students.profile'),
+      icon: "receipt",
+      slug: "my_profile",
+      pathKey: "students.profile"
+    },
+    {
+      title: "Family Background",
+      href: route('students.profile.family'),
+      icon: "receipt",
+      slug: "my_profile",
+      pathKey: "students.profile.family"
+    },
+    {
+      title: "Security",
+      href: route('students.enrollment.index'),
+      icon: "receipt",
+      slug: "security",
+      pathKey: "students.enrollment.*"
+    },
+  ],
   sidebarNav: [
     {
       title: "Dashboard",

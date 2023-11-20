@@ -2,16 +2,16 @@ import { Head, usePage } from "@inertiajs/react";
 // layouts
 import ProfileLayout from "@/layouts/profile";
 // local components
-import ProfileComponents from "./components/profile";
+import FamilyComponents from "./components/family"
 
-export default function Profile() {
+export default function Family() {
     const { auth } = usePage<any>().props;
 
     return (
         <>
-            <Head title="Student Profile" />
+            <Head title="Student Family" />
             <ProfileLayout pageTitle={"My Profile"} pageDescription={"Profile and account security information."}>
-                <ProfileComponents />
+                <FamilyComponents />
             </ProfileLayout>
         </>
     );
