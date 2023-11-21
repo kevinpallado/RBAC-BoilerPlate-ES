@@ -28,19 +28,11 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "Modules\\": "src/Modules/",
-            "Accounting\\": "src/Modules/Accounting",
-            "Admission\\": "src/Modules/Admission",
-            "Cashier\\": "src/Modules/Cashier",
-            "ClassRecords\\": "src/Modules/ClassRecords",
-            "Management\\": "src/Modules/Management",
-            "Registrar\\": "src/Modules/Registrar",
-            "Scheduling\\": "src/Modules/Scheduling",
-            "Setup\\": "src/Modules/Setup",
-            "SystemSettings\\": "src/Modules/SystemSettings"
+            "Modules\\": "src/Modules/"
         },
         "files": [
-            "app/Helpers/Academic.php"
+            "app/Helpers/Academic.php",
+            "app/Helpers/General.php"
         ]
     },
     "autoload-dev": {

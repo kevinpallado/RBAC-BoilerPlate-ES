@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { usePage } from "@inertiajs/react"
+import { router, usePage } from "@inertiajs/react"
 import { useEffect, useState } from "react"
 // global components
 import { useToast } from "@/components/ui/use-toast"
@@ -29,52 +29,55 @@ import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 const formSchema = z.object({
-    Father_FirstName: z.string(),
-    Father_MiddleName: z.string(),
-    Father_LastName: z.string(),
-    Father_Address: z.string(),
-    Father_TelNo: z.string(),
-    Father_Email: z.string(),
-    Father_Mobile: z.string(),
-    Father_Occupation: z.string(),
-    Father_Company: z.string(),
-    Father_CompanyAddress: z.string(),
-    Father_CompanyPhone: z.string(),
-    Father_Monthly_Income: z.string(),
-    Mother_FirstName: z.string(),
-    Mother_MiddleName: z.string(),
-    Mother_LastName: z.string(),
-    Mother_Address: z.string(),
-    Mother_TelNo: z.string(),
-    Mother_Email: z.string(),
-    Mother_Mobile: z.string(),
-    Mother_Occupation: z.string(),
-    Mother_Company: z.string(),
-    Mother_CompanyAddress: z.string(),
-    Mother_CompanyPhone: z.string(),
-    Mother_Monthly_Income: z.string(),
-    Guardian_FirstName: z.string(),
-    Guardian_MiddleName: z.string(),
-    Guardian_LastName: z.string(),
-    Guardian_Address: z.string(),
-    Guardian_ProvinceID: z.string(),
-    Guardian_CityID: z.string(),
-    Guardian_BarangayID: z.string(),
-    Guardian_ZipCode: z.string(),
+    Father_FirstName: z.string().min(3, { message: "First Name is required" }),
+    Father_MiddleName: z.string().optional(),
+    Father_LastName: z.string().min(2, { message: "Last Name is required" }),
+    Father_Address: z.string().optional(),
+    Father_TelNo: z.string().optional(),
+    Father_Email: z.string().optional(),
+    Father_Mobile: z.string().min(5, { message: "Mobile # is required" }),
+    Father_Occupation: z.string().optional(),
+    Father_Company: z.string().optional(),
+    Father_CompanyAddress: z.string().optional(),
+    Father_CompanyPhone: z.string().optional(),
+    Father_Monthly_Income: z.string().optional(),
+    Mother_FirstName: z.string().min(3, { message: "First Name is required" }),
+    Mother_MiddleName: z.string().optional(),
+    Mother_LastName: z.string().min(2, { message: "Last Name is required" }),
+    Mother_Address: z.string().optional(),
+    Mother_TelNo: z.string().optional(),
+    Mother_Email: z.string().optional(),
+    Mother_Mobile: z.string().min(5, { message: "Mobile # is required" }),
+    Mother_Occupation: z.string().optional(),
+    Mother_Company: z.string().optional(),
+    Mother_CompanyAddress: z.string().optional(),
+    Mother_CompanyPhone: z.string().optional(),
+    Mother_Monthly_Income: z.string().optional(),
+    Guardian_FirstName: z.string().min(2, { message: "First Name is required" }),
+    Guardian_MiddleName: z.string().optional(),
+    Guardian_LastName: z.string().min(2, { message: "Last Name is required" }),
+    Guardian_Address: z.string().optional(),
+    Guardian_ProvinceID: z.string().min(1, { message: 'Must select province' }),
+    Guardian_CityID: z.string().min(1, { message: 'Must select city' }),
+    Guardian_BarangayID: z.string().min(1, { message: 'Must select barangay' }),
+    Guardian_ZipCode: z.string().optional(),
 })
 
 export default function FamilyComponents() {
     const { toast } = useToast()
 
-    const { province, family } = usePage<any>().props;
+    const { profile, province, cities, barangay, family } = usePage<any>().props;
     // constants
     const [guardianSelectedProvince, setGuardianSelectedProvince] = useState<any>(null);
-    const [guardianCity, setGuardianCity] = useState([]);
-    const [guardianSelectedCity, setGuardianSelectedCity] = useState<any>(family.Guardian_CityID ? family.Guardian_CityID : null);
-    const [guardianBrgy, setGuardianBrgy] = useState([]);
-    const [guardianSelectedBrgy, setGuardianSelectedBrgy] = useState<any>(family.Guardian_BarangayID ? family.Guardian_BarangayID : null);
+    const [guardianCity, setGuardianCity] = useState(cities);
+    const [guardianSelectedCity, setGuardianSelectedCity] = useState<any>(family?.Guardian_CityID ? family?.Guardian_CityID : null);
+    const [guardianBrgy, setGuardianBrgy] = useState(barangay);
+    const [guardianSelectedBrgy, setGuardianSelectedBrgy] = useState<any>(family?.Guardian_BarangayID ? family?.Guardian_BarangayID : null);
     const [reloadGuardianData, setReloadGuardianData] = useState<boolean>(false);
     const [selectedGuardian, setSelectedGuardian] = useState<string>("");
+    const [disableGuardianInput, setDisableGuardianInput] = useState<boolean>(true);
+
+    const [submitForm, setSubmitForm] = useState<boolean>(false);
 
     useEffect(() => {
         if (guardianSelectedProvince != null && guardianSelectedCity == null && guardianSelectedBrgy == null) {
@@ -89,15 +92,87 @@ export default function FamilyComponents() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            Father_FirstName: "",
-            Father_MiddleName: "",
-            Father_LastName: "",
-            Father_Address: ""
+            Father_FirstName: family?.Father_FirstName,
+            Father_MiddleName: family?.Father_MiddleName,
+            Father_LastName: family?.Father_LastName,
+            Father_Address: family?.Father_Address,
+            Father_TelNo: family?.Father_TelNo,
+            Father_Email: family?.Father_Email,
+            Father_Mobile: family?.Father_Mobile,
+            Father_Occupation: family?.Father_Occupation,
+            Father_Company: family?.Father_Company,
+            Father_CompanyAddress: family?.Father_CompanyAddress,
+            Father_CompanyPhone: family?.Father_CompanyPhone,
+            Father_Monthly_Income: family?.Father_Monthly_Income ? family?.Father_Monthly_Income : "",
+            Mother_FirstName: family?.Mother_FirstName,
+            Mother_MiddleName: family?.Mother_MiddleName,
+            Mother_LastName: family?.Mother_LastName,
+            Mother_Address: family?.Mother_Address,
+            Mother_TelNo: family?.Mother_TelNo,
+            Mother_Email: family?.Mother_Email,
+            Mother_Mobile: family?.Mother_Mobile,
+            Mother_Occupation: family?.Mother_Occupation,
+            Mother_Company: family?.Mother_Company,
+            Mother_CompanyAddress: family?.Mother_CompanyAddress,
+            Mother_CompanyPhone: family?.Mother_CompanyPhone,
+            Mother_Monthly_Income: family?.Mother_Monthly_Income ? family?.Mother_Monthly_Income : "",
+            Guardian_FirstName: family?.Guardian_FirstName,
+            Guardian_MiddleName: family?.Guardian_MiddleName,
+            Guardian_LastName: family?.Guardian_LastName,
+            Guardian_Address: family?.Guardian_Address,
+            Guardian_ProvinceID: family?.Guardian_ProvinceID ? (family?.Guardian_ProvinceID).toString() : "",
+            Guardian_CityID: family?.Guardian_CityID ? (family?.Guardian_CityID).toString() : "",
+            Guardian_BarangayID: family?.Guardian_BarangayID ? (family?.Guardian_BarangayID).toString() : "",
+            Guardian_ZipCode: family?.Guardian_ZipCode,
         }
     });
 
+    function currentGuardian(e: string) {
+        setSelectedGuardian(e);
+        form.setValue('Guardian_FirstName', "");
+        form.setValue('Guardian_MiddleName', "");
+        form.setValue('Guardian_LastName', "");
+        form.setValue('Guardian_Address', "");
+        switch (e) {
+            case 'mother':
+                setDisableGuardianInput(true);
+                form.setValue('Guardian_FirstName', form.getValues('Mother_FirstName') ?? "")
+                form.setValue('Guardian_MiddleName', form.getValues('Mother_MiddleName') ?? "")
+                form.setValue('Guardian_LastName', form.getValues('Mother_LastName') ?? "")
+                form.setValue('Guardian_Address', form.getValues('Mother_Address') ?? "")
+                break;
+            case 'father':
+                setDisableGuardianInput(true);
+                form.setValue('Guardian_FirstName', form.getValues('Father_FirstName') ?? "")
+                form.setValue('Guardian_MiddleName', form.getValues('Father_MiddleName') ?? "")
+                form.setValue('Guardian_LastName', form.getValues('Father_LastName') ?? "")
+                form.setValue('Guardian_Address', form.getValues('Father_Address') ?? "")
+                break;
+            default:
+                setDisableGuardianInput(false);
+                break;
+        }
+    }
+
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+        setSubmitForm(true);
+        router.post(route('students.submit.family', { student: profile.StudentNo }), values, {
+            onSuccess: (success: any) => {
+                setSubmitForm(false);
+                toast({
+                    title: "Notification",
+                    description: success.props.form.message,
+                })
+            },
+            onError: error => {
+                toast({
+                    variant: "destructive",
+                    title: "Snap!",
+                    description: error.message,
+                })
+                setSubmitForm(false);
+            }
+        });
     }
 
     return (
@@ -430,8 +505,8 @@ export default function FamilyComponents() {
                     />
                 </div>
                 <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">Guardian Information</h4>
-                <RadioGroup onValueChange={(e:any) => setSelectedGuardian(e)} className="flex justify-start" value={selectedGuardian}>
-                    <div className="text-lg font-semibold">Who is your currently guardian?</div>
+                <RadioGroup onValueChange={currentGuardian} className="flex justify-start" value={selectedGuardian}>
+                    <div className="text-lg font-semibold">Who is your current guardian?</div>
                     <div className="flex items-center space-x-2">
                         <RadioGroupItem value="mother" id="r1" />
                         <Label htmlFor="r1">Mother</Label>
@@ -453,7 +528,7 @@ export default function FamilyComponents() {
                             <FormItem>
                                 <FormLabel>First Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled />
+                                    <Input {...field} disabled={disableGuardianInput} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -466,7 +541,7 @@ export default function FamilyComponents() {
                             <FormItem>
                                 <FormLabel>Last Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled/>
+                                    <Input {...field} disabled={disableGuardianInput} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -479,7 +554,7 @@ export default function FamilyComponents() {
                             <FormItem>
                                 <FormLabel>Middle Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled/>
+                                    <Input {...field} disabled={disableGuardianInput} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -492,7 +567,7 @@ export default function FamilyComponents() {
                             <FormItem className="col-span-3">
                                 <FormLabel>Address</FormLabel>
                                 <FormControl>
-                                    <Input {...field} disabled/>
+                                    <Input {...field} disabled={disableGuardianInput} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -604,6 +679,13 @@ export default function FamilyComponents() {
                         )}
                     />
                 </div>
+                {!submitForm ? <Button type="submit">
+                    Submit
+                </Button> :
+                    <Button disabled>
+                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                        Please wait
+                    </Button>}
             </form>
         </Form>
     )

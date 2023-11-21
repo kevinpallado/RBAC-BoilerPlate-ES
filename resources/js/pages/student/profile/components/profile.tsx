@@ -117,7 +117,6 @@ export default function ProfileComponents() {
     })
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
         setSubmitForm(true);
         router.post(route('students.submit.profile', { student: profile.StudentNo }), values, {
             onSuccess: (success:any) => {

@@ -17,15 +17,22 @@ export const dashboardConfig: DashboardConfig = {
       title: "Personal Background",
       href: route('students.profile'),
       icon: "receipt",
-      slug: "my_profile",
+      slug: "personal_background",
       pathKey: "students.profile"
     },
     {
       title: "Family Background",
       href: route('students.profile.family'),
       icon: "receipt",
-      slug: "my_profile",
+      slug: "family_background",
       pathKey: "students.profile.family"
+    },
+    {
+      title: "Emergency Contacts",
+      href: route('students.profile.emergency'),
+      icon: "receipt",
+      slug: "emergency_contacts",
+      pathKey: "students.profile.emergency"
     },
     {
       title: "Security",
