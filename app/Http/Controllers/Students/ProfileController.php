@@ -93,8 +93,18 @@ class ProfileController extends Controller
     }
 
     public function emergency(Request $request) {
+        $profile = Students::select('StudentNo','FamilyID')->where('StudentNo', auth()->user()->university_id)->first();
+        $family = StudentFamilyBackground::where('FamilyID', $profile->FamilyID)->first();
         return Inertia::render('student/profile/emergency')->with([
-
+            'student' => $profile,
+            'family' => $family
         ]);
+    }
+
+    public function updateEmergency(Request $request, $student) {
+        $student = Students::where('StudentNo', $student)->first();
+        StudentFamilyBackground::where('FamilyID', $student->FamilyID)->update($request->all());
+
+        return redirect()->back()->with(['message' => 'Successfully updated emergency contacts']);
     }
 }

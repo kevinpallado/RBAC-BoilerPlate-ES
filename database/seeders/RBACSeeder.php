@@ -47,6 +47,14 @@ class RBACSeeder extends Seeder
                 'student' => true
             ],
             [
+                'module' => 'Setup',
+                'page' => 'Academic Policy'
+            ],
+            [
+                'module' => 'Setup',
+                'page' => 'Grading Setup'
+            ],
+            [
                 'module' => 'Settings',
                 'page' => 'User Group',
             ],

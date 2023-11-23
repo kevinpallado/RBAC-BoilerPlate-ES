@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::get('family', [ProfileController::class, 'family'])->name('profile.family');
         Route::post('family/{student}', [ProfileController::class, 'updateFamily'])->name('submit.family');
         Route::get('emergency', [ProfileController::class, 'emergency'])->name('profile.emergency');
+        Route::post('emergency/{student}', [ProfileController::class, 'updateEmergency'])->name('submit.profile.emergency');
     });
 
     Route::prefix('select')->name('select.')->group(function () {
